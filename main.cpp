@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <filmdb.h>
 #include <iostream>
+#include <QSqlQuery>
 
 int main(int argc, char *argv[])
 {

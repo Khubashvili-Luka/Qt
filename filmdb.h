@@ -1,7 +1,7 @@
 #ifndef FILMDB_H
 #define FILMDB_H
 
-#define DATABASE_PATH "C:\hi\films.db"
+#define DATABASE_PATH "C:/database/database.sqlite"
 
 #include <QString>
 #include <QList>
@@ -13,7 +13,6 @@ class FilmDb
 public:
     FilmDb();
     ~FilmDb();
-
 
     QList<QString> get_good_films_of_genre(int rating, QString genre);
     QList<QString> get_films_of_genre_less_than(int time, QString genre);

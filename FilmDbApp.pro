@@ -1,8 +1,5 @@
 QT = core
 QT += testlib sql
-QT += sql testlib
-QT += sql
-
 
 CONFIG += c++17 cmdline
 

@@ -23,7 +23,8 @@ void FilmDb::openDatabase() {
         qDebug() << "Ошибка открытия базы:" << db.lastError().text();
     }
     else{
-         qDebug() << "База открыта:";
+         qDebug() << "База открыта:" + db.databaseName();
+
 
     }
 }
@@ -54,65 +55,81 @@ QList<QString> FilmDb::executeQuery(const QString &queryString, const QMap<QStri
     return result;
 }
 
-
 int FilmDb::executeScalarQuery(const QString &queryString, const QMap<QString, QVariant> &params) {
     QSqlQuery query(db);
     query.prepare(queryString);
 
-    return 1;
+    for (auto it = params.constBegin(); it != params.constEnd(); ++it) {
+        query.bindValue(it.key(), it.value());
+    }
 
-
-   // query.exec("SELECT * FROM genre ;");
-
-
-    // while (query.next()) {
-    //     qDebug() << "Таблица:" << query.value(0).toString();
-    // }
-
-
-    // query.prepare("SELECT COUNT(*) FROM genre");
-    // if (query.exec()) {
-    //     if (query.next()) {
-    //         qDebug() << "Result:" << query.value(0).toInt();
-    //     } else {
-    //         qDebug() << "No results";
-    //     }
-    // } else {
-    //     qDebug() << "Ошибка выполнения запроса:" << query.lastError().text();
-    // }
-
-
-
-
-    // qDebug() << "Выполняется запрос:" << queryString;
-
-
-    // qDebug() << "Параметры:";
-    // for (auto it = params.constBegin(); it != params.constEnd(); ++it) {
-    //     qDebug() << it.key() << ":" << it.value();
-    //     query.bindValue(it.key(), it.value());
-    // }
-
-
-    // if (!query.exec()) {
-    //     qDebug() << "Ошибка выполнения запроса:" << query.lastError().text();
-    //     return 0;
-    // } else {
-    //     qDebug() << "Запрос выполнен успешно.";
-    // }
-
-
-    // if (!query.next()) {
-    //     qDebug() << "Нет данных в результате запроса.";
-    //     return 0;
-    // }
-
-
-    // int result = query.value(0).toInt();
-    // qDebug() << "Результат запроса:" << result;
-    // return result;
-
+    if (query.exec() && query.next()) {
+        return query.value(0).toInt();
+    } else {
+        qDebug() << "Ошибка выполнения запроса: 1" << query.lastError().text();
+        return 0;
+    }
 }
+
+
+// int FilmDb::executeScalarQuery(const QString &queryString, const QMap<QString, QVariant> &params) {
+//     QSqlQuery query(db);
+//     query.prepare(queryString);
+
+
+
+
+//    //query.exec("SELECT * FROM genre ;");
+
+
+//     // while (query.next()) {
+//     //     qDebug() << "Таблица:" << query.value(0).toString();
+//     // }
+
+
+
+//     if (query.prepare("SELECT COUNT(*) FROM genre")) {
+//         if (query.next()) {
+//             qDebug() << "Result:" << query.value(0).toInt();
+//         } else {
+//             qDebug() << "No results";
+//         }
+//     } else {
+//         qDebug() << "Ошибка выполнения запроса%@:" << query.lastError().text();
+//     }
+
+
+
+
+//     qDebug() << "Выполняется запрос:" << queryString;
+
+
+//     qDebug() << "Параметры:";
+//     for (auto it = params.constBegin(); it != params.constEnd(); ++it) {
+//         qDebug() << it.key() << ":" << it.value();
+//         query.bindValue(it.key(), it.value());
+//     }
+
+
+//     if (!query.exec()) {
+//         qDebug() << "Ошибка выполнения запроса:" << query.lastError().text();
+//         return 0;
+//     } else {
+//         qDebug() << "Запрос выполнен успешно.";
+//     }
+
+
+//     if (!query.next()) {
+//         qDebug() << "Нет данных в результате запроса.";
+//         return 0;
+//     }
+
+
+//     int result = query.value(0).toInt();
+//     qDebug() << "Результат запроса:" << result;
+//     return 1;
+
+// }
 
 
 QList<QString> FilmDb::get_good_films_of_genre(int rating, QString genre) {

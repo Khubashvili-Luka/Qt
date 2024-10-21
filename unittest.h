@@ -10,7 +10,16 @@ public:
     explicit  UnitTest(QObject *parent = 0);
 
 private slots:
-    void TestCountGenreDrama();
+    void TestCountGenreAnimation();
+    void TestCountGenreWestern();
+    void TestCountGenreBiography();
+    void TestCountGenreSport();
+    void TestCountGenreTriller();
+    void TestCountGenreRomance();
+    void TestCountGenreMusic();
+    void TestCountGenreCrime();
+    void TestCountGenreAction();
+    void TestCountGenreHorror();
 
 };
 
